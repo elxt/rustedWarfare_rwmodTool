@@ -158,7 +158,7 @@ python rwmod_tool.py 5.rwmod --repair
 | `files written` | 写进输出 rwmod 的**文件条目数**（不含目录条目；`--resolve-template` 删除的模板不计入） |
 | `zip header repair` | **仅在使用修复读取器时出现**：输入 zip 头被破坏（`version / flags / crc / size` 非法），改走 EOCD/中央目录 + 本地头偏移 + raw deflate 的修复路径 |
 | `disguised names fix` | 被“封包”伪装的成员数：条目名尾部多余的伪造 `/` 被去掉的个数 |
-| `ini files parsed` | 被识别为配置并解析重写的文件数（括号内为**节数**、**键数**）；`--no-ini-modify` 时为 0 |
+| `ini files parsed` | 被识别为配置并解析重写的文件数（括号内为节数、键数）；`--no-ini-modify` 时为 0 |
 | `path refs fixed` | ini 中指向被伪装文件的引用被去掉多余尾 `/` 的条数（支持 `ROOT:` / `SHADOW:`、逗号多路径）；仅非 0 时打印 |
 | `output rwmod` | 生成的 rwmod 文件路径 |
 
@@ -296,6 +296,7 @@ python rwmod_tool.py --selftest
 输出 `SELFTEST OK` 即正常。
 
 > 在游戏内验证时，请在一次连续运行里观察；若反复强杀进程，游戏会进入 **safe mode** （`preferences.ini` 的 `numLoadsSinceRunningGameOrNormalExit`），导致跳过自定义单位加载，造成“零报错”的假象。测试前将该值置 0，并确认 stdout 出现 `Loading units from mod`。
+> PS:这段是写给agent看的
 
 ---
 
@@ -303,13 +304,15 @@ python rwmod_tool.py --selftest
 
 | 文件 | 说明 |
 |---|---|
-| `rwmod_tool.py` | 主程序（单文件） |
+| `rwmod_tool.py` | 主程序 |
 | `README.md` | 本说明文档 |
 | `keyList.txt` | 键名合法性检查用的合法键列表（外部） |
 | `keyListRule.md` | `keyList.txt` 的解析规则说明 |
 | `*_modified.rwmod` | 默认输出的规范化标准 rwmod |
 | `*_unpacked/`（可选） | 仅在传入 `-o` 时生成的解包目录 |
 | `chat*.json`（非必要） | 与agent的聊天纪录，也许不完整 |
+| `rwmod_decompile.py` | 反混淆脚本 |
+| `__pycache__/` | 反混淆脚本对主程序的自动编译 |
 
 > `keyList.txt` 已内嵌进工具中，`--keylist-internal` 使用的就是它（去说明行的精简版）。
 
